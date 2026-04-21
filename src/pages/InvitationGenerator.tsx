@@ -1,0 +1,190 @@
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { Copy, Check, Plus, Trash2, MessageCircle, Download, Sparkles, ArrowLeft } from "lucide-react";
+import { buildInvitationUrl } from "@/lib/guest";
+
+const DEFAULT_GUESTS = [
+  "Bapak/Ibu Hartono Sekeluarga",
+  "Bapak/Ibu Suryadi Sekeluarga",
+  "Saudara Rizky & Pasangan",
+  "Tante Maya Sekeluarga",
+  "Sahabat Andi & Keluarga",
+  "Keluarga Besar Siagian",
+];
+
+const InvitationGenerator = () => {
+  const [guests, setGuests] = useState<string[]>(DEFAULT_GUESTS);
+  const [newGuest, setNewGuest] = useState("");
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const [baseUrl, setBaseUrl] = useState<string>(
+    typeof window !== "undefined" ? `${window.location.origin}/` : ""
+  );
+
+  const links = useMemo(
+    () => guests.map((g) => ({ name: g, url: buildInvitationUrl(g, baseUrl) })),
+    [guests, baseUrl]
+  );
+
+  const addGuest = () => {
+    const v = newGuest.trim();
+    if (!v) return;
+    setGuests((g) => [...g, v]);
+    setNewGuest("");
+  };
+
+  const removeGuest = (i: number) => setGuests((g) => g.filter((_, idx) => idx !== i));
+
+  const copyLink = async (url: string, i: number) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedIdx(i);
+      setTimeout(() => setCopiedIdx(null), 1800);
+    } catch {
+      // ignore
+    }
+  };
+
+  const waMessage = (name: string, url: string) =>
+    `*Walimatul 'Urs*\n\nAssalamu'alaikum Warahmatullahi Wabarakatuh\n\nKepada Yth.\n*${name}*\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami:\n\n*Muhammad Aldi Siagian*\n&\n*Rikaerscaa*\n\nBerikut link undangan kami, untuk info lengkap dari acara bisa kunjungi:\n${url}\n\nMerupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.\n\nWassalamu'alaikum Warahmatullahi Wabarakatuh\n\nHormat Kami,\nKedua Mempelai`;
+
+  const sendWA = (name: string, url: string) => {
+    const text = encodeURIComponent(waMessage(name, url));
+    window.open(`https://wa.me/?text=${text}`, "_blank");
+  };
+
+  const exportCsv = () => {
+    const rows = [["Nama Tamu", "Link Undangan"], ...links.map((l) => [l.name, l.url])];
+    const csv = rows
+      .map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "undangan-tamu.csv";
+    a.click();
+  };
+
+  return (
+    <div className="min-h-screen py-12 px-4 sm:px-6 bg-gradient-to-b from-cream/40 via-background to-sage-light/30">
+      <div className="max-w-4xl mx-auto">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary text-xs tracking-wider uppercase mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Kembali ke Undangan
+        </Link>
+
+        <div className="text-center mb-10">
+          <Sparkles className="w-5 h-5 text-gold mx-auto mb-3" />
+          <p className="text-primary font-sans text-[10px] tracking-[0.5em] uppercase mb-3">Admin · Mempelai</p>
+          <h1 className="font-serif text-3xl md:text-4xl text-foreground mb-3">Generator Link Undangan</h1>
+          <p className="text-muted-foreground text-sm max-w-xl mx-auto leading-relaxed">
+            Buat link personal untuk setiap tamu. Nama mereka akan muncul otomatis di halaman undangan.
+          </p>
+        </div>
+
+        {/* Base URL */}
+        <div className="glass-card luxe-border rounded-2xl p-5 mb-6">
+          <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">
+            Base URL Undangan
+          </label>
+          <input
+            value={baseUrl}
+            onChange={(e) => setBaseUrl(e.target.value)}
+            className="w-full bg-background/50 border border-border/50 rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="https://undangan-aldi-ecaa.com/"
+          />
+        </div>
+
+        {/* Add guest */}
+        <div className="glass-card luxe-border rounded-2xl p-5 mb-6">
+          <label className="block text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">
+            Tambah Nama Tamu
+          </label>
+          <div className="flex gap-2">
+            <input
+              value={newGuest}
+              onChange={(e) => setNewGuest(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && addGuest()}
+              className="flex-1 bg-background/50 border border-border/50 rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+              placeholder="cth. Bapak/Ibu Surya Sekeluarga"
+            />
+            <button
+              onClick={addGuest}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium tracking-wider uppercase hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Tambah
+            </button>
+          </div>
+        </div>
+
+        {/* Toolbar */}
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-muted-foreground text-xs">
+            <span className="text-foreground font-semibold">{links.length}</span> tamu siap dikirim
+          </p>
+          <button
+            onClick={exportCsv}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border/60 text-foreground text-xs hover:bg-primary/[0.06] transition-colors"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Export CSV
+          </button>
+        </div>
+
+        {/* Guest list */}
+        <div className="space-y-3">
+          {links.map((l, i) => (
+            <div
+              key={`${l.name}-${i}`}
+              className="glass-card rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 group hover:shadow-md transition-shadow"
+            >
+              <div className="flex-1 min-w-0">
+                <p className="font-serif text-base text-foreground truncate">{l.name}</p>
+                <p className="text-muted-foreground text-[11px] truncate font-mono mt-0.5">{l.url}</p>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <button
+                  onClick={() => copyLink(l.url, i)}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary/10 text-primary text-[10px] tracking-wider uppercase hover:bg-primary/20 transition-colors"
+                  title="Salin link"
+                >
+                  {copiedIdx === i ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedIdx === i ? "Disalin" : "Salin"}
+                </button>
+                <button
+                  onClick={() => sendWA(l.name, l.url)}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#25D366]/15 text-[#128C7E] text-[10px] tracking-wider uppercase hover:bg-[#25D366]/25 transition-colors"
+                  title="Kirim via WhatsApp"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  WhatsApp
+                </button>
+                <button
+                  onClick={() => removeGuest(i)}
+                  className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                  title="Hapus"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          ))}
+          {links.length === 0 && (
+            <div className="text-center py-12 text-muted-foreground text-sm">
+              Belum ada tamu. Tambahkan nama di atas.
+            </div>
+          )}
+        </div>
+
+        <div className="mt-8 text-center text-[10px] text-muted-foreground/70 tracking-wider">
+          Tip: Buka <span className="font-mono text-foreground">{baseUrl}?to=NamaTamu</span> untuk preview.
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default InvitationGenerator;
