@@ -4,8 +4,9 @@ import { Copy, Check, Gift, CreditCard, Sparkles } from "lucide-react";
 import ornamentDivider from "@/assets/ornament-divider.webp";
 
 const accounts = [
-  { bank: "Bank BCA", number: "1234567890", name: "Muhammad Aldi Siagian" },
-  { bank: "Bank Mandiri", number: "0987654321", name: "Rikaerscaa" },
+  { bank: "BCA", number: "8645396169", name: "Rika" },
+  { bank: "BRI", number: "109201048139502", name: "Rika" },
+  { bank: "BRI", number: "334401014331507", name: "Aldi" },
 ];
 
 const GiftSection = () => {
