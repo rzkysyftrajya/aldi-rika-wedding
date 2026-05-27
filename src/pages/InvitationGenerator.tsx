@@ -82,6 +82,92 @@ const DEFAULT_GUESTS = [
   "buk inur & suami",
   "cindy amanda & partner",
   "kak lilis j mode & partner",
+  // Additional Guests
+"MAMANK FAMILY",
+"Aditya Rafly",
+"Indra",
+"Agum Ridho prananda",
+"Didi ahmad fazli",
+"Ali zidan",
+"diva maturi",
+"Ella Wahyuni",
+"Feby",
+"Adriani sinaga",
+"Afrian Pradipta",
+"Tunismen",
+"Rendy",
+"baginda",
+"Azizan",
+"Imam",
+"Rangga",
+"Dinda",
+"Nabila Safitri",
+"Praza akbar",
+"Rifky",
+"Oka",
+"Andika",
+"Zidan",
+"Khairunisa",
+"Nazwa",
+"Era",
+"Nahya",
+"Febiola",
+"Amanda",
+"Karina",
+
+// List Tambahan Aldi
+"alex",
+"fery",
+"kenzo",
+"cupung",
+"pakde",
+"samuel sgn",
+"bg radit",
+"riski pohan",
+"caca",
+"arya lubis",
+"bg faiz",
+"raden",
+"ropek",
+"bg rangga momon",
+"gomble",
+"ahmad hafis",
+"reyhan",
+"tara sng",
+"rehan harahap",
+"bagus trihafiz",
+"tegar",
+"dony lesmana",
+"black",
+"naufal",
+"bagus kara",
+"nafa rzky",
+"bg rahman",
+"imam harahap",
+"rivaldo",
+"agus",
+"tama",
+"rafly adek",
+"gabe",
+"ain",
+"dio",
+"atas halomoan",
+"raja bangga harahap",
+"habib",
+"jhon",
+"vina pane",
+"bg otoy",
+"oka angga",
+"fahrozi",
+"fadli",
+"sawal",
+"natan",
+"izy",
+"bg ega prayoga",
+"bg ryan",
+"ryan gendut",
+"ahmad syukri pohan",
+"rizky pohan",
 ];
 
 const InvitationGenerator = () => {
@@ -97,8 +183,18 @@ const InvitationGenerator = () => {
     [guests, baseUrl]
   );
 
+  const normalizeGuest = (name: string) => {
+    const v = name.trim();
+    if (!v) return v;
+    // Jika sudah mengandung '&' (mis. "tika & suami"), biarkan.
+    if (v.includes("&")) return v;
+    // Jika sudah merupakan nama keluarga semuanya (ALL CAPS), biarkan.
+    if (v === v.toUpperCase() && v.replace(/[^A-Z]/g, "").length >= 2) return v;
+    return `${v} & partner`;
+  };
+
   const addGuest = () => {
-    const v = newGuest.trim();
+    const v = normalizeGuest(newGuest);
     if (!v) return;
     setGuests((g) => [...g, v]);
     setNewGuest("");
@@ -214,8 +310,8 @@ const InvitationGenerator = () => {
               className="glass-card rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 group hover:shadow-md transition-shadow"
             >
               <div className="flex-1 min-w-0">
-                <p className="font-serif text-base text-foreground truncate">{l.name}</p>
-                <p className="text-muted-foreground text-[11px] truncate font-mono mt-0.5">{l.url}</p>
+                <p className="font-sans text-base text-foreground truncate tracking-[0.01em]">{l.name}</p>
+                <p className="text-muted-foreground text-[11px] truncate font-sans mt-0.5">{l.url}</p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button
