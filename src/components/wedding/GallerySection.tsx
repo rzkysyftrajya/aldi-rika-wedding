@@ -1,21 +1,24 @@
 import { useDirectionalAnimation, useScrollAnimation } from "@/hooks/useScrollAnimation";
 import ornamentDivider from "@/assets/ornament-divider.webp";
-import groomPhoto from "@/assets/groom.webp";
-import bridePhoto from "@/assets/bride.webp";
 import { Camera, Heart, Sparkles } from "lucide-react";
 
 const placeholders = [
-  { span: "col-span-2 row-span-2", photo: "/galeri/galeri-1.webp", label: "Galeri 1" },
-  { span: "", photo: "/galeri/galeri-2.webp", label: "Galeri 2" },
-  { span: "", photo: "/galeri/galeri-3.webp", label: "Galeri 3" },
-  { span: "", photo: "/galeri/galeri-4.webp", label: "Galeri 4" },
-  { span: "col-span-2", photo: "/galeri/galeri-5.webp", label: "Galeri 5" },
-  { span: "", photo: "/galeri/galeri-6.webp", label: "Galeri 6" },
-  { span: "", photo: "/galeri/galeri-7.webp", label: "Galeri 7" },
-  { span: "", photo: "/galeri/galeri-8.webp", label: "Galeri 8" },
-  { span: "", photo: "/galeri/galeri-9.webp", label: "Galeri 9" },
-  { span: "col-span-2", photo: "/galeri/galeri-10.webp", label: "Galeri 10" },
+  // Story layout (no akad emphasis): highlight wedding moments first
+  { span: "col-span-2 row-span-2", photo: "/galeri/galeri-10.webp", label: "Mempelai Pria" },
+  { span: "", photo: "/foto-kedua-mempelai(2).webp", label: "Kedua Mempelai" },
+  { span: "", photo: "/foto-mempelai-wanita.webp", label: "Mempelai Wanita" },
+
+  // Pre-wedding / formal moments
+  { span: "", photo: "/galeri/galeri-1.webp", label: "Pre-wedding" },
+  { span: "col-span-2", photo: "/galeri/galeri-2.webp", label: "Formal Moment" },
+  { span: "", photo: "/galeri/galeri-3.webp", label: "Our Memories" },
+
+  // Blessing / celebration (still using your existing set)
+  { span: "", photo: "/galeri/galeri-4.webp", label: "Blessing" },
+  { span: "", photo: "/galeri/galeri-6.webp", label: "Wedding Day" },
+  { span: "col-span-2", photo: "/galeri/galeri-5.webp", label: "Celebration" },
 ];
+
 
 const GallerySection = () => {
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();

@@ -1,9 +1,8 @@
 import { useDirectionalAnimation } from "@/hooks/useScrollAnimation";
 import floralBouquet from "@/assets/floral-bouquet.webp";
 import ornamentDivider from "@/assets/ornament-divider.png";
-import groomPhoto from "@/assets/groom.webp";
-import bridePhoto from "@/assets/bride.webp";
 import { Heart, Sparkles } from "lucide-react";
+
 
 const CoupleSection = () => {
   const { ref: groomRef, isVisible: groomVisible, getTransform: groomT } = useDirectionalAnimation('left');
@@ -42,13 +41,25 @@ const CoupleSection = () => {
               transition: 'all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s',
             }}
           >
-            <div className="glass-card luxe-border rounded-[2rem] p-6 pb-8 w-full max-w-[280px] group">
+            <div className="glass-card luxe-border rounded-[2rem] p-6 pb-8 w-full max-w-[280px] group relative overflow-hidden">
+              {/* Secondary main photo halo */}
+              <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-gold/10 blur-2xl pointer-events-none" />
+              <div className="absolute -bottom-16 -left-14 w-36 h-36 rounded-full bg-primary/10 blur-2xl pointer-events-none" />
+
+
               <div className="relative mb-6 mx-auto w-fit">
                 <div className="absolute inset-0 rounded-full ring-pulse" />
-                <div className="w-44 h-44 rounded-full overflow-hidden border-[3px] border-primary/25 shadow-xl mx-auto transition-all duration-700 group-hover:border-gold/60 group-hover:shadow-2xl group-hover:scale-105 relative">
-                  <img src={groomPhoto} alt="Muhammad Aldi Siagian" className="w-full h-full object-cover object-top transition-transform duration-[1.2s] group-hover:scale-110" loading="lazy" />
+                <div className="w-40 h-40 rounded-full overflow-hidden border-[3px] border-primary/25 shadow-xl mx-auto transition-all duration-700 group-hover:border-gold/60 group-hover:shadow-2xl group-hover:scale-105 relative">
+                  <img
+                    src="galeri/galeri-10.webp"
+                    alt="Muhammad Aldi Siagian"
+                    className="w-full h-full object-cover object-center transition-transform duration-[1.2s] group-hover:scale-110"
+                    loading="lazy"
+                  />
                 </div>
+
                 <img src={floralBouquet} alt="" className="absolute -bottom-2 -right-2 w-14 opacity-40 rotate-12 pointer-events-none transition-all duration-500 group-hover:opacity-70 group-hover:rotate-[18deg]" loading="lazy" width={512} height={512} />
+
                 <div className="absolute -top-1 -left-1 w-7 h-7 rounded-full bg-gradient-to-br from-primary/20 to-gold/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-y-1 group-hover:translate-y-0">
                   <Heart className="w-3 h-3 text-primary" />
                 </div>
@@ -77,7 +88,13 @@ const CoupleSection = () => {
               <div className="relative mb-6 mx-auto w-fit">
                 <div className="absolute inset-0 rounded-full ring-pulse" style={{ animationDelay: '1.5s' }} />
                 <div className="w-44 h-44 rounded-full overflow-hidden border-[3px] border-primary/25 shadow-xl mx-auto transition-all duration-700 group-hover:border-gold/60 group-hover:shadow-2xl group-hover:scale-105 relative">
-                  <img src={bridePhoto} alt="Rikaerscaa" className="w-full h-full object-cover object-top transition-transform duration-[1.2s] group-hover:scale-110" loading="lazy" />
+                  <img
+                    src="/foto-mempelai-wanita.webp"
+                    alt="Rikaerscaa"
+                    className="w-full h-full object-cover object-center transition-transform duration-[1.2s] group-hover:scale-110"
+                    loading="lazy"
+                  />
+
                 </div>
                 <img src={floralBouquet} alt="" className="absolute -bottom-2 -left-2 w-14 opacity-40 -rotate-12 scale-x-[-1] pointer-events-none transition-all duration-500 group-hover:opacity-70 group-hover:-rotate-[18deg]" loading="lazy" width={512} height={512} />
                 <div className="absolute -top-1 -right-1 w-7 h-7 rounded-full bg-gradient-to-br from-primary/20 to-gold/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 -translate-y-1 group-hover:translate-y-0">

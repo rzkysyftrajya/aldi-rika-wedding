@@ -1,10 +1,9 @@
 import floralTop from "@/assets/floral-top.webp";
 import floralBottom from "@/assets/floral-bottom.webp";
 import floralWreath from "@/assets/floral-wreath.webp";
-import bridePhoto from "@/assets/bride.webp";
-import groomPhoto from "@/assets/groom.webp";
 import { Heart, Sparkles, ChevronDown, Mail } from "lucide-react";
 import { useGuestName } from "@/lib/guest";
+
 
 interface CoverSectionProps {
   onOpen: () => void;
@@ -48,18 +47,51 @@ const CoverSection = ({ onOpen }: CoverSectionProps) => {
       {/* Main content */}
       <div className="text-center z-10 px-6" style={{ animation: 'reveal-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
         
-        {/* Couple photos */}
+        {/* Couple photos (public images) */}
         <div className="flex items-center justify-center gap-4 mb-6" style={{ animation: 'reveal-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both' }}>
-          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg" style={{ animation: 'gentle-sway 6s ease-in-out infinite' }}>
-            <img src={groomPhoto} alt="Aldi" className="w-full h-full object-cover object-top" />
+          {/* Foto pasangan (utama) */}
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-full bg-primary/10 blur-2xl" />
+            <div className="w-28 h-28 rounded-[2.25rem] overflow-hidden border-2 border-primary/25 shadow-xl">
+              <img
+                src="/foto-kedua-mempelai(2).webp"
+                alt="Kedua mempelai"
+                className="w-full h-full object-cover object-center"
+                loading="lazy"
+              />
+            </div>
           </div>
+
+          {/* Heart divider */}
           <div className="flex flex-col items-center">
             <Heart className="w-5 h-5 text-primary animate-heartbeat" />
+            <div className="w-px h-10 bg-gradient-to-b from-primary/40 via-gold/30 to-transparent mt-2" />
           </div>
-          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg" style={{ animation: 'gentle-sway 6s ease-in-out infinite 0.5s' }}>
-            <img src={bridePhoto} alt="Ecaa" className="w-full h-full object-cover object-top" />
+
+          {/* Foto mempelai wanita */}
+          <div className="relative">
+            <div className="absolute -inset-3 rounded-full bg-gold/10 blur-xl" />
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg" style={{ animation: 'gentle-sway 6s ease-in-out infinite 0.5s' }}>
+              <img
+                src="/foto-mempelai-wanita.webp"
+                alt="Mempelai wanita"
+                className="w-full h-full object-cover object-top"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Accent: foto kedua mempelai lainnya */}
+            <div className="absolute -bottom-4 -right-6 w-16 h-16 rounded-full overflow-hidden border border-border/50 bg-background/40 backdrop-blur-sm shadow-lg rotate-[10deg]">
+              <img
+                src="/foto-kedua-mempelai.webp"
+                alt="Accent kedua mempelai"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
+
 
         {/* Wreath + names */}
         <div className="relative inline-block mb-2">

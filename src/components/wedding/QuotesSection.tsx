@@ -23,8 +23,12 @@ const quotes = [
 ];
 
 const QuotesSection = () => {
+  // Quotes section tidak dipakai (data tidak digunakan), jadi dirender kosong agar tidak mengganggu layout.
+  return null;
+
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
   const [active, setActive] = useState(0);
+
 
   useEffect(() => {
     const id = setInterval(() => {
