@@ -168,6 +168,9 @@ const DEFAULT_GUESTS = [
 "ryan gendut",
 "ahmad syukri pohan",
 "rizky pohan",
+"nurul hasana & partner",
+"nayla & partner",
+"aldino & partner",
 ];
 
 const InvitationGenerator = () => {
